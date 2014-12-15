@@ -44,6 +44,7 @@
             this.odbicieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.względemOsiXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.względemOsiYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToMonochromate1BitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.default1 = new System.Windows.Forms.PictureBox();
@@ -74,7 +75,7 @@
             this.rozmiar = new System.Windows.Forms.TrackBar();
             this.drukujDialog = new System.Windows.Forms.PrintDialog();
             this.widokWydrukuDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.convertToMonochromate1BitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToBlackWhiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -154,7 +155,8 @@
             this.scalowanieToolStripMenuItem,
             this.obróćToolStripMenuItem,
             this.odbicieToolStripMenuItem,
-            this.convertToMonochromate1BitToolStripMenuItem});
+            this.convertToMonochromate1BitToolStripMenuItem,
+            this.convertToBlackWhiteToolStripMenuItem});
             this.operacjeToolStripMenuItem.Name = "operacjeToolStripMenuItem";
             this.operacjeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.operacjeToolStripMenuItem.Text = "Operacje";
@@ -211,6 +213,13 @@
             this.względemOsiYToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.względemOsiYToolStripMenuItem.Text = "Względem osi Y";
             this.względemOsiYToolStripMenuItem.Click += new System.EventHandler(this.względemOsiYToolStripMenuItem_Click);
+            // 
+            // convertToMonochromate1BitToolStripMenuItem
+            // 
+            this.convertToMonochromate1BitToolStripMenuItem.Name = "convertToMonochromate1BitToolStripMenuItem";
+            this.convertToMonochromate1BitToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.convertToMonochromate1BitToolStripMenuItem.Text = "convert to monochromate 1 bit";
+            this.convertToMonochromate1BitToolStripMenuItem.Click += new System.EventHandler(this.convertToMonochromate1BitToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -510,12 +519,12 @@
             this.widokWydrukuDialog.Name = "widokWydrukuDialog";
             this.widokWydrukuDialog.Visible = false;
             // 
-            // convertToMonochromate1BitToolStripMenuItem
+            // convertToBlackWhiteToolStripMenuItem
             // 
-            this.convertToMonochromate1BitToolStripMenuItem.Name = "convertToMonochromate1BitToolStripMenuItem";
-            this.convertToMonochromate1BitToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
-            this.convertToMonochromate1BitToolStripMenuItem.Text = "convert to monochromate 1 bit";
-            this.convertToMonochromate1BitToolStripMenuItem.Click += new System.EventHandler(this.convertToMonochromate1BitToolStripMenuItem_Click);
+            this.convertToBlackWhiteToolStripMenuItem.Name = "convertToBlackWhiteToolStripMenuItem";
+            this.convertToBlackWhiteToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.convertToBlackWhiteToolStripMenuItem.Text = "Convert to Black-White";
+            this.convertToBlackWhiteToolStripMenuItem.Click += new System.EventHandler(this.convertToBlackWhiteToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -602,6 +611,7 @@
         private System.Windows.Forms.PrintDialog drukujDialog;
         private System.Windows.Forms.PrintPreviewDialog widokWydrukuDialog;
         private System.Windows.Forms.ToolStripMenuItem convertToMonochromate1BitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convertToBlackWhiteToolStripMenuItem;
     }
 }
 

@@ -613,6 +613,29 @@ namespace Paint
             }
         }
 
+        private void convertToBlackWhiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image == null)
+            {
+                MessageBox.Show("Nie otworzyłeś żadnego obrazu", "Brak zdjęcia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image);
+
+
+            } if (pictureBox2.Image == null)
+            {
+                MessageBox.Show("Nie otworzyłeś żadnego obrazu", "Brak zdjęcia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                pictureBox2.Image = Konwersja.ConverteToBlacWhite(Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image));
+
+
+            }
+        }
+
    
       
        

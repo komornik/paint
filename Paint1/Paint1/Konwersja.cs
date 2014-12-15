@@ -29,6 +29,39 @@ namespace Paint
             return output;
         }
 
+        public static Bitmap ConverteToBlacWhite(Bitmap input)
+        {
+            Bitmap output = new Bitmap(input.Width, input.Height);
+            int romiar_okna = 3;
+
+            for (int y = romiar_okna; y < (input.Height - romiar_okna-1); y++)
+            {
+                for (int x = romiar_okna; x < (input.Width - romiar_okna-1); x++)
+                {
+                    int srednia= 0;
+
+                    for (int i = (-1*romiar_okna); i <  romiar_okna; i++)
+                    {
+                        for (int j = (-1*romiar_okna); j < romiar_okna; j++)
+                        {
+                            srednia += input.GetPixel(x+i,y+j).B;
+                        }
+                    }
+                    if (srednia >= 127)
+                    {
+                        output.SetPixel(x, y, Color.FromArgb(240, 255, 255, 255));
+                    }else{
+                        output.SetPixel(x, y, Color.FromArgb(input.GetPixel(x, y).A, 0, 0, 0));
+                    }
+
+                }
+            }
+
+            return output;
+
+
+        }
+
 
 
         public static Bitmap ConvertTo1Bit(Bitmap input)
