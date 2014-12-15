@@ -74,6 +74,7 @@
             this.rozmiar = new System.Windows.Forms.TrackBar();
             this.drukujDialog = new System.Windows.Forms.PrintDialog();
             this.widokWydrukuDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.convertToMonochromate1BitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -152,7 +153,8 @@
             this.operacjeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scalowanieToolStripMenuItem,
             this.obróćToolStripMenuItem,
-            this.odbicieToolStripMenuItem});
+            this.odbicieToolStripMenuItem,
+            this.convertToMonochromate1BitToolStripMenuItem});
             this.operacjeToolStripMenuItem.Name = "operacjeToolStripMenuItem";
             this.operacjeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.operacjeToolStripMenuItem.Text = "Operacje";
@@ -160,7 +162,7 @@
             // scalowanieToolStripMenuItem
             // 
             this.scalowanieToolStripMenuItem.Name = "scalowanieToolStripMenuItem";
-            this.scalowanieToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.scalowanieToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.scalowanieToolStripMenuItem.Text = "Scalowanie";
             this.scalowanieToolStripMenuItem.Click += new System.EventHandler(this.scalowanieToolStripMenuItem_Click);
             // 
@@ -170,7 +172,7 @@
             this.prawoToolStripMenuItem,
             this.lewoToolStripMenuItem});
             this.obróćToolStripMenuItem.Name = "obróćToolStripMenuItem";
-            this.obróćToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.obróćToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.obróćToolStripMenuItem.Text = "Obróć";
             // 
             // prawoToolStripMenuItem
@@ -193,7 +195,7 @@
             this.względemOsiXToolStripMenuItem,
             this.względemOsiYToolStripMenuItem});
             this.odbicieToolStripMenuItem.Name = "odbicieToolStripMenuItem";
-            this.odbicieToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.odbicieToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.odbicieToolStripMenuItem.Text = "Odbicie";
             // 
             // względemOsiXToolStripMenuItem
@@ -508,6 +510,13 @@
             this.widokWydrukuDialog.Name = "widokWydrukuDialog";
             this.widokWydrukuDialog.Visible = false;
             // 
+            // convertToMonochromate1BitToolStripMenuItem
+            // 
+            this.convertToMonochromate1BitToolStripMenuItem.Name = "convertToMonochromate1BitToolStripMenuItem";
+            this.convertToMonochromate1BitToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.convertToMonochromate1BitToolStripMenuItem.Text = "convert to monochromate 1 bit";
+            this.convertToMonochromate1BitToolStripMenuItem.Click += new System.EventHandler(this.convertToMonochromate1BitToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -592,6 +601,7 @@
         private System.Windows.Forms.ToolStripMenuItem ądWydrukuToolStripMenuItem;
         private System.Windows.Forms.PrintDialog drukujDialog;
         private System.Windows.Forms.PrintPreviewDialog widokWydrukuDialog;
+        private System.Windows.Forms.ToolStripMenuItem convertToMonochromate1BitToolStripMenuItem;
     }
 }
 

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace Paint
 {
@@ -577,8 +579,6 @@ namespace Paint
             }
         }
 
-
-
         private void printDocPrinter(Object sender, PrintPageEventArgs e)
         {
             Bitmap myBitmap1 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
@@ -599,7 +599,21 @@ namespace Paint
             }
         }
 
-       
+        private void convertToMonochromate1BitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image == null)
+            {
+                MessageBox.Show("Nie otworzyłeś żadnego obrazu", "Brak zdjęcia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image);
+
+
+            }
+        }
+
+   
       
        
 
@@ -613,5 +627,12 @@ namespace Paint
 
         
        
+
+
+
+
+
+
+        }
+
     }
-}
