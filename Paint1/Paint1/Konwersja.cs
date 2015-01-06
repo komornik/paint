@@ -32,7 +32,7 @@ namespace Paint
         public static Bitmap ConverteToBlacWhite(Bitmap input)
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
-            int romiar_okna = 3;
+            int romiar_okna = 1;
 
             for (int y = romiar_okna; y < (input.Height - romiar_okna-1); y++)
             {

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.IO.Ports;
 
 namespace Paint
 {
@@ -343,7 +344,7 @@ namespace Paint
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ksa");
+                
             }
         }
 
@@ -634,6 +635,21 @@ namespace Paint
 
 
             }
+        }
+
+        private void comboBox1_Click(object sender, EventArgs e)
+        {
+            string[] ports = SerialPort.GetPortNames();
+            comboBox1.Items.Clear();
+            comboBox1.Items.AddRange(ports);
+
+
+
+        }
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            portLCh.Text=comboBox1.SelectedItem.ToString();
         }
 
    
