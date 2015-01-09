@@ -19,11 +19,13 @@ namespace Paint
         
         Graphics g;
         Figura referencja;
+
         public enum Item
         {
             kwadrat, elipsa, linia, pendzel, olowek, gumka, wypel,
             tekst
         }
+
         public Form1()
         {
             InitializeComponent();
@@ -646,10 +648,37 @@ namespace Paint
 
 
         }
+        private void readp(SerialPort port)
+        {
+            char[] tab = new char[port.ReadBufferSize];
+            port.Read(tab, 0, port.ReadBufferSize);
+            String napis = "";
+            foreach (var j in tab)
+            {
+                napis += (char)j;
+            }
+            MessageBox.Show(napis);
+        }
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             portLCh.Text=comboBox1.SelectedItem.ToString();
+            SerialPort port = new SerialPort(portLCh.Text);
+            port.Open();
+            port.Write("S");
+            readp(port);
+            for (int i = 0; i < 10; i++)
+            {
+                port.Write("Z");
+                System.Threading.Thread.Sleep(1000);
+                readp(port);
+
+
+            }
+            
+            port.Close();
+
+
         }
 
    
