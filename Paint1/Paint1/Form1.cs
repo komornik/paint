@@ -639,47 +639,16 @@ namespace Paint
             }
         }
 
-        private void comboBox1_Click(object sender, EventArgs e)
+        private void wyslijDoUrzadzToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] ports = SerialPort.GetPortNames();
-            comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(ports);
-
-
-
-        }
-        private void readp(SerialPort port)
-        {
-            char[] tab = new char[port.ReadBufferSize];
-            port.Read(tab, 0, port.ReadBufferSize);
-            String napis = "";
-            foreach (var j in tab)
-            {
-                napis += (char)j;
-            }
-            MessageBox.Show(napis);
+            Wyslij wyslij = new Wyslij(pictureBox2.Image);
+            wyslij.Visible = true;
         }
 
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
-        {
-            portLCh.Text=comboBox1.SelectedItem.ToString();
-            SerialPort port = new SerialPort(portLCh.Text);
-            port.Open();
-            port.Write("S");
-            readp(port);
-            for (int i = 0; i < 10; i++)
-            {
-                port.Write("Z");
-                System.Threading.Thread.Sleep(1000);
-                readp(port);
+        
+        
 
-
-            }
-            
-            port.Close();
-
-
-        }
+        
 
    
       

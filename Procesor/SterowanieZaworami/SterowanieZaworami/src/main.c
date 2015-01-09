@@ -46,6 +46,9 @@
 #include "ui.h"
 #include "uart.h"
 
+#include <util\delay.h>
+
+
 static volatile bool main_b_cdc_enable = false;
 
 /*! \brief Main function. Execution starts here.
@@ -83,10 +86,20 @@ int main(void)
 			ch = udi_cdc_getc();
 			switch(ch)
 			{
-				case 'S'       : udi_cdc_write_buf("START \n\r", 14);PORTC.OUT=0b00000010; break;// USTAWIENIE 0 I 1
-				case 'Z'       : udi_cdc_write_buf("ZAWORY \n\r", 14);PORTC.OUTTGL=0xff; break; // NEGACJA PORTÓW
+				case '0'       : 
+								PORTC.OUT=PIN1_bm; 
+								_delay_ms(5000);
+								udi_cdc_write_buf("START \n\r", 14);
+								PORTC.OUTTGL=PIN1_bm;
+								
+								break;// USTAWIENIE 0 I 1
+				case '1'       : 
+								PORTC.OUT=PIN0_bm;
+								_delay_ms(5000);
+								udi_cdc_write_buf("ZAWORY \n\r", 14);
+								PORTC.OUTTGL=PIN0_bm; break; // NEGACJA PORTÓW
 				
-				default        : udi_cdc_write_buf("'S' TO START A 'z' TO ZMIANA", 50); break;
+				default        : udi_cdc_write_buf("'S' TO START A 'Z' TO ZMIANA", 26); break;
 				
 				
 				
@@ -133,7 +146,7 @@ bool main_cdc_enable(uint8_t port)
 {
 	main_b_cdc_enable = true;
 	// Open communication
-	uart_open(port);
+	//uart_open(port);
 	return true;
 }
 

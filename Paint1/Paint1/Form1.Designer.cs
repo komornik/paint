@@ -61,6 +61,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelY = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusTextY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.portLCh = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tekst = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -76,9 +77,7 @@
             this.rozmiar = new System.Windows.Forms.TrackBar();
             this.drukujDialog = new System.Windows.Forms.PrintDialog();
             this.widokWydrukuDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.portL = new System.Windows.Forms.ToolStripStatusLabel();
-            this.portLCh = new System.Windows.Forms.ToolStripStatusLabel();
+            this.wyslijDoUrzadzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -159,7 +158,8 @@
             this.obróćToolStripMenuItem,
             this.odbicieToolStripMenuItem,
             this.convertToMonochromate1BitToolStripMenuItem,
-            this.convertToBlackWhiteToolStripMenuItem});
+            this.convertToBlackWhiteToolStripMenuItem,
+            this.wyslijDoUrzadzToolStripMenuItem});
             this.operacjeToolStripMenuItem.Name = "operacjeToolStripMenuItem";
             this.operacjeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.operacjeToolStripMenuItem.Text = "Operacje";
@@ -337,7 +337,6 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelY,
             this.toolStripStatusTextY,
-            this.portL,
             this.portLCh});
             this.statusStrip1.Location = new System.Drawing.Point(0, 340);
             this.statusStrip1.Name = "statusStrip1";
@@ -374,6 +373,11 @@
             this.toolStripStatusTextY.Name = "toolStripStatusTextY";
             this.toolStripStatusTextY.Size = new System.Drawing.Size(13, 17);
             this.toolStripStatusTextY.Text = "0";
+            // 
+            // portLCh
+            // 
+            this.portLCh.Name = "portLCh";
+            this.portLCh.Size = new System.Drawing.Size(0, 17);
             // 
             // panel2
             // 
@@ -531,26 +535,12 @@
             this.widokWydrukuDialog.Name = "widokWydrukuDialog";
             this.widokWydrukuDialog.Visible = false;
             // 
-            // comboBox1
+            // wyslijDoUrzadzToolStripMenuItem
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(359, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
-            this.comboBox1.Click += new System.EventHandler(this.comboBox1_Click);
-            // 
-            // portL
-            // 
-            this.portL.Name = "portL";
-            this.portL.Size = new System.Drawing.Size(32, 17);
-            this.portL.Text = "Port:";
-            // 
-            // portLCh
-            // 
-            this.portLCh.Name = "portLCh";
-            this.portLCh.Size = new System.Drawing.Size(0, 17);
+            this.wyslijDoUrzadzToolStripMenuItem.Name = "wyslijDoUrzadzToolStripMenuItem";
+            this.wyslijDoUrzadzToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.wyslijDoUrzadzToolStripMenuItem.Text = "Wyślij do urządzenia";
+            this.wyslijDoUrzadzToolStripMenuItem.Click += new System.EventHandler(this.wyslijDoUrzadzToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -558,7 +548,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(480, 362);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.statusStrip1);
@@ -639,9 +628,8 @@
         private System.Windows.Forms.PrintPreviewDialog widokWydrukuDialog;
         private System.Windows.Forms.ToolStripMenuItem convertToMonochromate1BitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToBlackWhiteToolStripMenuItem;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ToolStripStatusLabel portL;
         private System.Windows.Forms.ToolStripStatusLabel portLCh;
+        private System.Windows.Forms.ToolStripMenuItem wyslijDoUrzadzToolStripMenuItem;
     }
 }
 
