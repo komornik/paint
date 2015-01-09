@@ -645,31 +645,7 @@ namespace Paint
             wyslij.Visible = true;
         }
 
-        
-        
-
-        
-
-   
-      
-       
-
-       
-       
-
-        
-
-       
-      
-
-        
-       
-
-
-
-
-
-
-        }
 
     }
+
+}

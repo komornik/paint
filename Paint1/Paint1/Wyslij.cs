@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Threading;
 
 namespace Paint
 {
@@ -38,11 +39,10 @@ namespace Paint
             portnaz = PortChB.SelectedItem.ToString();
         }
 
-        private void wyslijB_Click(object sender, EventArgs e)
+        bool wylacz = false;
+        private void wyslanie()
         {
-            if (obraz != null)
-            {
-                SerialPort port = new SerialPort(portnaz);
+            SerialPort port = new SerialPort(portnaz);
                 port.Open();
                 int c;
 
@@ -71,12 +71,30 @@ namespace Paint
                         System.Threading.Thread.Sleep(1000);
 
 
-
+                        if (wylacz)
+                        {
+                            x = obraz.Width;
+                            y = obraz.Height;
+                        }
                     }
                 }
 
                 port.Close();
+            
+
+        }
+        private void wyslijB_Click(object sender, EventArgs e)
+        {
+            if (obraz != null)
+            {
+                Thread thr = new Thread(wyslanie);
+                thr.Start();
             }
+        }
+
+        private void anulujWyslanie_Click(object sender, EventArgs e)
+        {
+            wylacz = true;
         }
     }
 }

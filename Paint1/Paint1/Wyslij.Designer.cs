@@ -31,6 +31,7 @@
             this.PortChB = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.wyslijB = new System.Windows.Forms.Button();
+            this.anulujWyslanie = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PortChB
@@ -62,11 +63,22 @@
             this.wyslijB.UseVisualStyleBackColor = true;
             this.wyslijB.Click += new System.EventHandler(this.wyslijB_Click);
             // 
+            // anulujWyslanie
+            // 
+            this.anulujWyslanie.Location = new System.Drawing.Point(197, 145);
+            this.anulujWyslanie.Name = "anulujWyslanie";
+            this.anulujWyslanie.Size = new System.Drawing.Size(75, 23);
+            this.anulujWyslanie.TabIndex = 3;
+            this.anulujWyslanie.Text = "Anuluj";
+            this.anulujWyslanie.UseVisualStyleBackColor = true;
+            this.anulujWyslanie.Click += new System.EventHandler(this.anulujWyslanie_Click);
+            // 
             // Wyslij
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.anulujWyslanie);
             this.Controls.Add(this.wyslijB);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PortChB);
@@ -82,5 +94,6 @@
         private System.Windows.Forms.ComboBox PortChB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button wyslijB;
+        private System.Windows.Forms.Button anulujWyslanie;
     }
 }
