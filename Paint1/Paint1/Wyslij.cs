@@ -45,7 +45,7 @@ namespace Paint
             SerialPort port = new SerialPort(portnaz);
                 port.Open();
                 int c;
-
+                
 
                 for (int x = 0; x < obraz.Width; x++)
                 {
@@ -69,17 +69,29 @@ namespace Paint
 
 
                         System.Threading.Thread.Sleep(1000);
-
-
+                        
+                        progressBar1.Invoke(new Action(delegate()
+                                            {
+                                                progressBar1.PerformStep();
+                                             }));
                         if (wylacz)
                         {
                             x = obraz.Width;
                             y = obraz.Height;
+                            progressBar1.Invoke(new Action(delegate()
+                            {
+                                progressBar1.Value = 0;
+                            }));
+                            wylacz = false;
                         }
                     }
                 }
 
                 port.Close();
+                progressBar1.Invoke(new Action(delegate()
+                {
+                    progressBar1.Value = 0;
+                }));
             
 
         }
@@ -87,8 +99,13 @@ namespace Paint
         {
             if (obraz != null)
             {
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = obraz.Width * obraz.Height;
+                progressBar1.Step = 1;
                 Thread thr = new Thread(wyslanie);
                 thr.Start();
+                
+               
             }
         }
 
