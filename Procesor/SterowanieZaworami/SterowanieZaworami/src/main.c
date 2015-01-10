@@ -45,7 +45,7 @@
 #include "conf_usb.h"
 #include "ui.h"
 #include "uart.h"
-
+#define F_CPU 2000000UL
 #include <util\delay.h>
 
 
@@ -73,7 +73,6 @@ int main(void)
 
 	// Start USB stack to authorize VBus monitoring
 	udc_start();
-
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt
 	PORTC_DIR=0b00000011; // USTAWIENIE NA PORCIE C DWÓCH PINÓW WYJŒCIOWYCH
@@ -88,14 +87,14 @@ int main(void)
 			{
 				case '0'       : 
 								PORTC.OUT=PIN1_bm; 
-								_delay_ms(5000);
+								_delay_ms(1000);
 								udi_cdc_write_buf("START \n\r", 14);
 								PORTC.OUTTGL=PIN1_bm;
 								
 								break;// USTAWIENIE 0 I 1
 				case '1'       : 
 								PORTC.OUT=PIN0_bm;
-								_delay_ms(5000);
+								_delay_ms(1000);
 								udi_cdc_write_buf("ZAWORY \n\r", 14);
 								PORTC.OUTTGL=PIN0_bm; break; // NEGACJA PORTÓW
 				
