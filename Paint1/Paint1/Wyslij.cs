@@ -45,8 +45,6 @@ namespace Paint
             SerialPort port = new SerialPort(portnaz);
                 port.Open();
                 int c;
-                
-
                 for (int x = 0; x < obraz.Width; x++)
                 {
                     for (int y = 0; y < obraz.Height; y++)
@@ -66,10 +64,7 @@ namespace Paint
                                 break;
                         }
                         port.Read(new char[20], 0, 15);
-
-
                         System.Threading.Thread.Sleep(1000);
-                        
                         progressBar1.Invoke(new Action(delegate()
                                             {
                                                 progressBar1.PerformStep();
