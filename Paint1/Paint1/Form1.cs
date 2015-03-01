@@ -627,21 +627,16 @@ namespace Paint
                 pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image);
 
 
-            } if (pictureBox2.Image == null)
-            {
-                MessageBox.Show("Nie otworzyłeś żadnego obrazu", "Brak zdjęcia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                pictureBox2.Image = Konwersja.ConverteToBlacWhite(Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image));
-
-
-            }
+            } 
         }
 
+        Image getObraz()
+        {
+            return pictureBox2.Image;
+        }
         private void wyslijDoUrzadzToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Wyslij wyslij = new Wyslij(pictureBox2.Image);
+            Wyslij wyslij = new Wyslij("saad",getObraz);
             wyslij.Visible = true;
         }
 

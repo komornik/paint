@@ -13,19 +13,21 @@ namespace Paint
 {
     public partial class Wyslij : Form
     {
+        public delegate Image pobierzObraz();
+        pobierzObraz getObraz;
         Bitmap obraz;
         String portnaz = "";
-        public Wyslij(Image bitmap)
+        public Wyslij(string i, pobierzObraz pobierzImage)
         {
             InitializeComponent();
-
-            obraz = (Bitmap)bitmap;
+            getObraz = pobierzImage;
+            obraz = (Bitmap)getObraz();
             string[] ports = SerialPort.GetPortNames();
             PortChB.Items.Clear();
             PortChB.Items.AddRange(ports);
            
         }
-
+        
         private void PortChB_Click(object sender, EventArgs e)
         {
             string[] porty = SerialPort.GetPortNames();
@@ -33,65 +35,137 @@ namespace Paint
             PortChB.Items.AddRange(porty);
 
         }
-
+        /// <summary>
+        /// Wybór portu 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PortChB_SelectedValueChanged(object sender, EventArgs e)
         {
             portnaz = PortChB.SelectedItem.ToString();
         }
 
         bool wylacz = false;
+        /// <summary>
+        /// Wysałanie Zdjęcia 
+        /// 
+        /// </summary>
         private void wyslanie()
         {
-            SerialPort port = new SerialPort(portnaz);
-                port.Open();
-                int c;
-                for (int x = 0; x < obraz.Width; x++)
+            
+            MessageBox.Show("Wysokość: " + obraz.Height + " Szerokośc: " + obraz.Width);
+            if (portnaz =="") // Tymczasowe puki niema portu 
+            {
+                
+                if (rozmiar_X.Text != "" && rozmiar_Y.Text != "")
                 {
-                    for (int y = 0; y < obraz.Height; y++)
+                    /* rozwiązanie tymczasowe dla tablicy zer i jedynek*/
+                    int x, y;
+                    try
                     {
-                        c = obraz.GetPixel(x, y).R;
-                        switch (c)
-                        {
-                            case 0:
-                                port.Write("0");
-
-                                break;
-                            case 255:
-                                port.Write("1");
-                                break;
-                            default:
-                                MessageBox.Show("c = " + c);
-                                break;
+                        x = Convert.ToInt32(rozmiar_X.Text);
+                        y = Convert.ToInt32(rozmiar_Y.Text);
+                    }
+                    catch (FormatException ex)
+                    {
+                        MessageBox.Show("Rozmiar musi byc liczbą całkowitą", "Zły format", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        x = 0;
+                        y = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        x = 0;
+                        y = 0;
+                    }
+                    progressBar1.Invoke(new Action(delegate()
+                    {
+                        progressBar1.Minimum = 0;
+                        progressBar1.Maximum = x * y;
+                        progressBar1.Step = 1;
+                    }));
+                    
+                    MessageBox.Show("X: " + x + " Y: " + y);
+                    byte [][] tab = new byte[x][];
+                    for(int i=0; i<x;i++){
+                        tab[i] = new byte[y];
+                        for(int j=0;j<y;j++){
+                            if (j%2==0){
+                                tab[i][j]=1;
+                            }
                         }
-                        port.Read(new char[20], 0, 15);
-                        System.Threading.Thread.Sleep(1000);
-                        progressBar1.Invoke(new Action(delegate()
-                                            {
-                                                progressBar1.PerformStep();
-                                             }));
-                        if (wylacz)
+                       
+                    }
+                    //SerialPort port = new SerialPort(portnaz);
+                    //port.Open();
+                    int c;
+                    /*
+                     * char koniec_lini = Convert.ToChar(3); "End TEXT"
+                    char koniec_koniec = Convert.ToChar(0);
+                     */
+                    char koniec_lini = Convert.ToChar(3);
+                    char koniec_koniec = Convert.ToChar(0);
+
+                    for (int i = 0; i <x; i++)
+                    {
+                        for (int j = 0; j < y; j++)
                         {
-                            x = obraz.Width;
-                            y = obraz.Height;
+                            c = tab[i][j];
+                            switch (c)
+                            {
+                                case 0:
+                                    //port.Write("0");
+
+                                    break;
+                                case 1:
+                                    //port.Write("1");
+                                    break;
+                                default:
+                                    MessageBox.Show("c = " + c);
+                                    break;
+                            }
                             progressBar1.Invoke(new Action(delegate()
                             {
-                                progressBar1.Value = 0;
+                                //obsługa progres baru 
+                                progressBar1.PerformStep();
                             }));
-                            wylacz = false;
+                            if (wylacz)
+                            {
+                                //akcja po kliknięciu Anuluj 
+                                i = x;
+                                j = y;
+                                progressBar1.Invoke(new Action(delegate()
+                                {
+                                    progressBar1.Value = 0;
+                                }));
+                                wylacz = false;
+                            }
                         }
+                        //port.Write(koniec_lini); //oznaczenie końca lini
                     }
+                    /*
+                     *Zamknięcie portu 
+                     */
+                    //port.Close();
+                    /*
+                     * Wyzerowanie progresbaru
+                     */
+                    progressBar1.Invoke(new Action(delegate()
+                    {
+                        progressBar1.Value = 0;
+                    }));
                 }
-
-                port.Close();
-                progressBar1.Invoke(new Action(delegate()
-                {
-                    progressBar1.Value = 0;
-                }));
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano purtu.\nWybież port ", "Błędny port", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
             
 
         }
         private void wyslijB_Click(object sender, EventArgs e)
         {
+            obraz = (Bitmap)getObraz();
             if (obraz != null)
             {
                 progressBar1.Minimum = 0;
@@ -99,14 +173,17 @@ namespace Paint
                 progressBar1.Step = 1;
                 Thread thr = new Thread(wyslanie);
                 thr.Start();
-                
-               
             }
         }
 
         private void anulujWyslanie_Click(object sender, EventArgs e)
         {
             wylacz = true;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
