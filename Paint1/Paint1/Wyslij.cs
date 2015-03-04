@@ -145,6 +145,7 @@ namespace Paint
                     /*
                      *Zamknięcie portu 
                      */
+                    //port.Write(koniec_koniec);
                     //port.Close();
                     /*
                      * Wyzerowanie progresbaru
