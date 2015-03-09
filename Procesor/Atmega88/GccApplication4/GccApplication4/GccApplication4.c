@@ -12,7 +12,8 @@
 #define FOSC 1000000
 #define BAUD 2400
 #define MYUBRR FOSC/16/BAUD-1
-#define LED PB0
+#define ZAW0 PB0
+#define ZAW1 PB1
 
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
@@ -21,8 +22,8 @@ void USART_Transmit_buff(const char *buff );
 
 int main(void)
 {
-	DDRB |= (1<< LED);
-	PORTB |= (1<<LED);
+	DDRB |= (1<< ZAW0) | (1<<ZAW1);
+	PORTB |= (1<<ZAW0);
 	unsigned char c='a';
 	USART_Init(MYUBRR);
 	_delay_ms(1000);
@@ -30,10 +31,28 @@ int main(void)
 	PORTB ^=(1<<LED);
    while(1)
     {
-		PORTB ^=(1<<LED);
-		_delay_ms(1000);
-        c=USART_Receive();
-		//USART_Transmit(c);
+		c=USART_Receive();
+		 switch(c)
+		 {
+			 case '0'       :
+				PORTB |= (1<<ZAW0);
+				_delay_ms(1000);
+				PORTB ^=(1<< ZAW0);
+				udi_cdc_write_buf("START \n\r", 14);
+			 break;// USTAWIENIE 0 I 1
+			 
+			 case '1'       :
+				PORTB |= (1<<ZAW1);
+				_delay_ms(1000);
+				PORTB ^=(1<< ZAW1);
+				break;
+			 
+			 default        : 
+				USART_Transmit_buff("sterowanie zawotrami zapomoca 0 i 1")
+			 
+			 
+			 
+		 };
 		 
 		 
     }
