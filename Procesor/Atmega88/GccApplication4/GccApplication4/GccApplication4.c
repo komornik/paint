@@ -7,10 +7,12 @@
 
 
 #include <avr/io.h>
+#include <util\delay.h>
 
-#define FOSC 2000000 // Clock Speed
-#define BAUD 9600
+#define FOSC 1000000
+#define BAUD 2400
 #define MYUBRR FOSC/16/BAUD-1
+#define LED PB0
 
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
@@ -19,14 +21,20 @@ void USART_Transmit_buff(const char *buff );
 
 int main(void)
 {
-	unsigned char c;
+	DDRB |= (1<< LED);
+	PORTB |= (1<<LED);
+	unsigned char c='a';
 	USART_Init(MYUBRR);
-	USART_Transmit_buff("Witam podczas proby wysylania\n");
-    while(1)
+	_delay_ms(1000);
+	
+	PORTB ^=(1<<LED);
+   while(1)
     {
-         c=USART_Receive();
-		 USART_Transmit(c);
-		 USART_Transmit_buff("\n");
+		PORTB ^=(1<<LED);
+		_delay_ms(1000);
+        c=USART_Receive();
+		//USART_Transmit(c);
+		 
 		 
     }
 }
@@ -39,7 +47,7 @@ void USART_Init( unsigned int ubrr)
 	UBRR0L = (unsigned char)ubrr;
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 	/* Set frame format: 8data, 1stop bit */
-	UCSR0C = (0<<USBS0)|(3<<UCSZ00);
+	UCSR0C = (1<<USBS0)|(3<<UCSZ00);
 }
 
 void USART_Transmit(unsigned char data )
