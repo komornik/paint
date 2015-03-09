@@ -53,7 +53,7 @@ namespace Paint
         private void wyslanie()
         {
             
-            if (portnaz =="") // Tymczasowe puki niema portu 
+            if (portnaz !="") // Jeśli port nie wybrany 
             {
                 
                 if (rozmiar_X.Text != "" && rozmiar_Y.Text != "")
@@ -94,8 +94,8 @@ namespace Paint
                         }
                        
                     }
-                    //SerialPort port = new SerialPort(portnaz);
-                    //port.Open();
+                    SerialPort port = new SerialPort(portnaz);
+                    port.Open();
                     int c;
                     /*
                      * char koniec_lini = Convert.ToChar(3); "End TEXT"
@@ -112,11 +112,11 @@ namespace Paint
                             switch (c)
                             {
                                 case 0:
-                                    //port.Write("0");
+                                    port.Write("0");
 
                                     break;
                                 case 1:
-                                    //port.Write("1");
+                                    port.Write("1");
                                     break;
                                 default:
                                     MessageBox.Show("c = " + c);
@@ -140,13 +140,13 @@ namespace Paint
                                 wylacz = false;
                             }
                         }
-                        //port.Write(koniec_lini); //oznaczenie końca lini
+                        port.Write(""+koniec_lini); //oznaczenie końca lini
                     }
                     /*
                      *Zamknięcie portu 
                      */
-                    //port.Write(koniec_koniec);
-                    //port.Close();
+                    port.Write(""+koniec_koniec);
+                    port.Close();
                     /*
                      * Wyzerowanie progresbaru
                      */
@@ -158,7 +158,7 @@ namespace Paint
             }
             else
             {
-                MessageBox.Show("Nie wybrano purtu.\nWybież port ", "Błędny port", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nie wybrano portu.\nWybież port ", "Błędny port", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
             
