@@ -22,33 +22,43 @@ void USART_Transmit_buff(const char *buff );
 
 int main(void)
 {
+	char koniec = 0;
+	char c;
 	DDRB |= (1<< ZAW0) | (1<<ZAW1);
 	PORTB |= (1<<ZAW0);
-	unsigned char c='a';
 	USART_Init(MYUBRR);
 	_delay_ms(1000);
-	
-	PORTB ^=(1<<LED);
+
    while(1)
     {
 		c=USART_Receive();
-		 switch(c)
+		switch(c)
 		 {
-			 case '0'       :
+			 case '0' :
+				// wyswietlenie pikselu 0
 				PORTB |= (1<<ZAW0);
 				_delay_ms(1000);
 				PORTB ^=(1<< ZAW0);
-				udi_cdc_write_buf("START \n\r", 14);
-			 break;// USTAWIENIE 0 I 1
+				break;
 			 
-			 case '1'       :
+			case '1' :
+				// wyswietlenie pikselu 1
 				PORTB |= (1<<ZAW1);
 				_delay_ms(1000);
 				PORTB ^=(1<< ZAW1);
 				break;
+			case 0 :
+				// obsluga w momecie naciœniecie przycisku Anuluj w programie
+				break;
+			case 3:
+				// obsluga konca lini
+				PORTB |= (1<<ZAW1);
+				_delay_ms(2000);
+				PORTB ^=(1<< ZAW1);
+				break
 			 
-			 default        : 
-				USART_Transmit_buff("sterowanie zawotrami zapomoca 0 i 1")
+			 default : 
+				USART_Transmit_buff("sterowanie zawotrami za pomoca 0 i 1");
 			 
 			 
 			 

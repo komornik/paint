@@ -53,7 +53,6 @@ namespace Paint
         private void wyslanie()
         {
             
-            MessageBox.Show("Wysokość: " + obraz.Height + " Szerokośc: " + obraz.Width);
             if (portnaz =="") // Tymczasowe puki niema portu 
             {
                 
@@ -133,6 +132,7 @@ namespace Paint
                                 //akcja po kliknięciu Anuluj 
                                 i = x;
                                 j = y;
+
                                 progressBar1.Invoke(new Action(delegate()
                                 {
                                     progressBar1.Value = 0;
