@@ -45,7 +45,8 @@
 #include "conf_usb.h"
 #include "ui.h"
 #include "uart.h"
-#define F_CPU 2000000UL
+#define F_CPU 2000000UL,
+#define ZAKONCZ 
 #include <util\delay.h>
 
 
