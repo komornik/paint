@@ -10,11 +10,13 @@
 #include <util\delay.h>
 
 #define FOSC 1000000
+#define F_CPU 1000000
 #define BAUD 2400
 #define MYUBRR FOSC/16/BAUD-1
 #define ZAW0 PB0
 #define ZAW1 PB1
-
+#define WOD 50
+#define POW 50
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
 unsigned char USART_Receive(void);
@@ -25,27 +27,32 @@ int main(void)
 	char koniec = 0;
 	char c;
 	DDRB |= (1<< ZAW0) | (1<<ZAW1);
-	PORTB |= (1<<ZAW0);
+	PORTB |= (1<<ZAW0)| (1<<ZAW1);
 	USART_Init(MYUBRR);
 	_delay_ms(1000);
+	PORTB ^=(1<<ZAW0) | (1<<ZAW1);
+	
 
    while(1)
     {
 		c=USART_Receive();
 		switch(c)
 		 {
+			 
 			 case '0' :
 				// wyswietlenie pikselu 0
 				PORTB |= (1<<ZAW0);
-				_delay_ms(1000);
+				_delay_ms(WOD);
 				PORTB ^=(1<< ZAW0);
+				USART_Transmit(c);
 				break;
 			 
 			case '1' :
 				// wyswietlenie pikselu 1
 				PORTB |= (1<<ZAW1);
-				_delay_ms(1000);
+				_delay_ms(POW);
 				PORTB ^=(1<< ZAW1);
+				USART_Transmit(c);
 				break;
 			case 0 :
 				// obsluga w momecie naciœniecie przycisku Anuluj w programie
@@ -55,7 +62,8 @@ int main(void)
 				PORTB |= (1<<ZAW1);
 				_delay_ms(2000);
 				PORTB ^=(1<< ZAW1);
-				break
+				USART_Transmit(c);
+				break;
 			 
 			 default : 
 				USART_Transmit_buff("sterowanie zawotrami za pomoca 0 i 1");

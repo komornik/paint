@@ -17,6 +17,7 @@ namespace Paint
         pobierzObraz getObraz;
         Bitmap obraz;
         String portnaz = "";
+        bool pauza = false;
         public Wyslij(string i, pobierzObraz pobierzImage)
         {
             InitializeComponent();
@@ -94,8 +95,17 @@ namespace Paint
                         }
                        
                     }
-                    SerialPort port = new SerialPort(portnaz,2400,Parity.None,8,StopBits.One);
-                    port.Open();
+                    SerialPort port = new SerialPort(portnaz, 2400, Parity.None, 8, StopBits.One);
+                    try
+                    {
+                        port.Open();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Nie można otworzyć portu");
+                        return;
+
+                    }
                     int c;
                     /*
                      * char koniec_lini = Convert.ToChar(3); "End TEXT"
@@ -110,6 +120,7 @@ namespace Paint
                     {
                         for (int j = 0; j < y; j++)
                         {
+                            while (pauza) ;
                             c = tab[i][j];
                             switch (c)
                             {
@@ -189,6 +200,13 @@ namespace Paint
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pauza = true;
+            MessageBox.Show("Włączona Pauza");
+            pauza = false;
         }
     }
 }
