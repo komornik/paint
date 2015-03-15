@@ -102,7 +102,7 @@ namespace Paint
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("Nie można otworzyć portu");
+                        MessageBox.Show("Nie można otworzyć portu "+ portnaz);
                         return;
 
                     }
@@ -189,6 +189,10 @@ namespace Paint
                 progressBar1.Step = 1;
                 Thread thr = new Thread(wyslanie);
                 thr.Start();
+            }
+            else
+            {
+                MessageBox.Show("Otwórz najpier obraz do wysłania", "UWAGA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
