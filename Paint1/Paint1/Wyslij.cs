@@ -94,7 +94,7 @@ namespace Paint
                         }
                        
                     }
-                    SerialPort port = new SerialPort(portnaz);
+                    SerialPort port = new SerialPort(portnaz,2400,Parity.None,8,StopBits.One);
                     port.Open();
                     int c;
                     /*
@@ -103,6 +103,8 @@ namespace Paint
                      */
                     char koniec_lini = Convert.ToChar(3);
                     char koniec_koniec = Convert.ToChar(0);
+                    char zero = '0';
+                    char jeden = '1';
 
                     for (int i = 0; i <x; i++)
                     {
@@ -112,11 +114,12 @@ namespace Paint
                             switch (c)
                             {
                                 case 0:
-                                    port.Write("0");
-
+                                    port.Write(""+zero);
+                                    port.ReadChar();
                                     break;
                                 case 1:
-                                    port.Write("1");
+                                    port.Write(""+jeden);
+                                    port.ReadChar();
                                     break;
                                 default:
                                     MessageBox.Show("c = " + c);
@@ -141,6 +144,7 @@ namespace Paint
                             }
                         }
                         port.Write(""+koniec_lini); //oznaczenie końca lini
+                        port.ReadChar();
                     }
                     /*
                      *Zamknięcie portu 
