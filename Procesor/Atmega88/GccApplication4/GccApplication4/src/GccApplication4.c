@@ -6,17 +6,20 @@
  */ 
 
 
-#include <avr/io.h>
+#include <avr\io.h>
 #include <util\delay.h>
 
 #define FOSC 1000000
 #define F_CPU 1000000
 #define BAUD 2400
 #define MYUBRR FOSC/16/BAUD-1
-#define ZAW0 PB0
-#define ZAW1 PB1
-#define WOD 50
-#define POW 50
+#define ZAW0 (1<<PB0)
+#define ZAW1 (1<<PB1)
+#define T_WOD 50
+#define T_POW 50
+#define T_KON_LINE 100
+#define T_KON_WYSW 200
+
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
 unsigned char USART_Receive(void);
@@ -26,11 +29,11 @@ int main(void)
 {
 	char koniec = 0;
 	char c;
-	DDRB |= (1<< ZAW0) | (1<<ZAW1);
-	PORTB |= (1<<ZAW0)| (1<<ZAW1);
+	DDRB |= ZAW0 | ZAW1;
+	PORTB |= ZAW0| ZAW1;
 	USART_Init(MYUBRR);
 	_delay_ms(1000);
-	PORTB ^=(1<<ZAW0) | (1<<ZAW1);
+	PORTB ^= ZAW0| ZAW1;
 	
 
    while(1)
@@ -41,27 +44,31 @@ int main(void)
 			 
 			 case '0' :
 				// wyswietlenie pikselu 0
-				PORTB |= (1<<ZAW0);
-				_delay_ms(WOD);
-				PORTB ^=(1<< ZAW0);
+				PORTB |= ZAW0;
+				_delay_ms(T_WOD);
+				PORTB ^=ZAW0;
 				USART_Transmit(c);
 				break;
 			 
 			case '1' :
 				// wyswietlenie pikselu 1
-				PORTB |= (1<<ZAW1);
-				_delay_ms(POW);
-				PORTB ^=(1<< ZAW1);
+				PORTB |= ZAW1;
+				_delay_ms(T_POW);
+				PORTB ^=ZAW1;
 				USART_Transmit(c);
 				break;
 			case 0 :
-				// obsluga w momecie naciœniecie przycisku Anuluj w programie
+				// obsluga w momecie naciœniecie przycisku Anuluj w programie oraz zakoñczenie wysy³ania zdjêcia
+				PORTB |= ZAW1;
+				_delay_ms(T_KON_WYSW);
+				PORTB ^=ZAW1;
+				USART_Transmit(c);
 				break;
 			case 3:
 				// obsluga konca lini
-				PORTB |= (1<<ZAW1);
-				_delay_ms(2000);
-				PORTB ^=(1<< ZAW1);
+				PORTB |= ZAW1;
+				_delay_ms(T_KON_LINE);
+				PORTB ^=ZAW1;
 				USART_Transmit(c);
 				break;
 			 
