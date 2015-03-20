@@ -47,7 +47,8 @@
 #include "uart.h"
 #define F_CPU 2000000UL,
 #define ZAKONCZ 
-#include <util\delay.h>
+#include <util/delay.h>
+#include <avr/io.h>
 
 
 static volatile bool main_b_cdc_enable = false;

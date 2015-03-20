@@ -15,10 +15,11 @@
 #define MYUBRR FOSC/16/BAUD-1
 #define ZAW0 (1<<PB0)
 #define ZAW1 (1<<PB1)
-#define T_WOD 50
-#define T_POW 50
+#define T_WOD 200
+#define T_POW 10
 #define T_KON_LINE 100
 #define T_KON_WYSW 200
+#define PRZERWA 1000
 
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
@@ -32,7 +33,7 @@ int main(void)
 	DDRB |= ZAW0 | ZAW1;
 	PORTB |= ZAW0| ZAW1;
 	USART_Init(MYUBRR);
-	_delay_ms(1000);
+	_delay_ms(PRZERWA);
 	PORTB ^= ZAW0| ZAW1;
 	
 
@@ -47,6 +48,7 @@ int main(void)
 				PORTB |= ZAW0;
 				_delay_ms(T_WOD);
 				PORTB ^=ZAW0;
+				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
 			 
@@ -55,6 +57,7 @@ int main(void)
 				PORTB |= ZAW1;
 				_delay_ms(T_POW);
 				PORTB ^=ZAW1;
+				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
 			case 0 :
@@ -62,6 +65,7 @@ int main(void)
 				PORTB |= ZAW1;
 				_delay_ms(T_KON_WYSW);
 				PORTB ^=ZAW1;
+				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
 			case 3:
@@ -69,6 +73,7 @@ int main(void)
 				PORTB |= ZAW1;
 				_delay_ms(T_KON_LINE);
 				PORTB ^=ZAW1;
+				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
 			 
