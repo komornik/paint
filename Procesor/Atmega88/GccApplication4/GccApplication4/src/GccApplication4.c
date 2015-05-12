@@ -15,8 +15,9 @@
 #define MYUBRR FOSC/16/BAUD-1
 #define ZAW0 (1<<PB0)
 #define ZAW1 (1<<PB1)
-#define T_WOD 200
-#define T_POW 10
+#define POMPA (1<<PB3)
+#define T_WOD 100
+#define T_POW 50
 #define T_KON_LINE 100
 #define T_KON_WYSW 200
 #define PRZERWA 1000
@@ -25,25 +26,34 @@ void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
 unsigned char USART_Receive(void);
 void USART_Transmit_buff(const char *buff );
+int16_t pomiar(uint8_t kanal);
+void ADC_Init(void);
 
 int main(void)
 {
 	char koniec = 0;
 	char c;
-	DDRB |= ZAW0 | ZAW1;
-	PORTB |= ZAW0| ZAW1;
+	int16_t cisnienie =0;
+	DDRB |= ZAW0 | ZAW1 | POMPA;
+	PORTB |= ZAW0| ZAW1 | POMPA;
 	USART_Init(MYUBRR);
+	ADC_Init();
 	_delay_ms(PRZERWA);
-	PORTB ^= ZAW0| ZAW1;
+	PORTB ^= ZAW0| ZAW1 | POMPA;
 	
 
    while(1)
     {
-		c=USART_Receive();
-		switch(c)
-		 {
-			 
-			 case '0' :
+		cisnienie=pomiar(5);
+		if (pomiar<400){
+			PORTB |= POMPA;
+		}else{
+			
+			c=USART_Receive();
+			switch(c)
+			{
+				
+				case '0' :
 				// wyswietlenie pikselu 0
 				PORTB |= ZAW0;
 				_delay_ms(T_WOD);
@@ -51,8 +61,8 @@ int main(void)
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
-			 
-			case '1' :
+				
+				case '1' :
 				// wyswietlenie pikselu 1
 				PORTB |= ZAW1;
 				_delay_ms(T_POW);
@@ -60,7 +70,8 @@ int main(void)
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
-			case 0 :
+				
+				case 0 :
 				// obsluga w momecie naciœniecie przycisku Anuluj w programie oraz zakoñczenie wysy³ania zdjêcia
 				PORTB |= ZAW1;
 				_delay_ms(T_KON_WYSW);
@@ -68,7 +79,8 @@ int main(void)
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
-			case 3:
+				
+				case 3:
 				// obsluga konca lini
 				PORTB |= ZAW1;
 				_delay_ms(T_KON_LINE);
@@ -76,9 +88,11 @@ int main(void)
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
-			 
-			 default : 
+				
+				default :
 				USART_Transmit_buff("sterowanie zawotrami za pomoca 0 i 1");
+		}
+		
 			 
 			 
 			 
@@ -131,4 +145,18 @@ unsigned char USART_Receive(void)
 	Get and return received data from buffer
 	*/
 	return UDR0;
+}
+
+void ADC_Init(void){
+ADMUX |= (1<<REFS0) | (1<< REFS1);
+ADCSRA |= (1<< ADEN) | (1<<ADPS1) | (1<<ADPS0);	
+}
+
+int16_t pomiar(uint8_t kanal){
+	ADMUX = (ADMUX & 0xF8) | kanal;
+	ADCSRA |=(1 << ADSC);
+	while (ADCSRA & (1<< ADSC));
+	
+	return ADCW;
+	
 }
