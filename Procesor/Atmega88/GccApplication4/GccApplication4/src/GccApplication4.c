@@ -15,9 +15,9 @@
 #define MYUBRR FOSC/16/BAUD-1
 #define ZAW0 (1<<PB0)
 #define ZAW1 (1<<PB1)
-#define POMPA (1<<PB3)
-#define T_WOD 100
-#define T_POW 50
+#define POMPA (1<<PB2)
+#define T_WOD 750
+#define T_POW 100
 #define T_KON_LINE 100
 #define T_KON_WYSW 200
 #define PRZERWA 1000
@@ -34,20 +34,33 @@ int main(void)
 	char koniec = 0;
 	char c;
 	int16_t cisnienie =0;
+	char pompaka = 'f';
 	DDRB |= ZAW0 | ZAW1 | POMPA;
 	PORTB |= ZAW0| ZAW1 | POMPA;
 	USART_Init(MYUBRR);
 	ADC_Init();
 	_delay_ms(PRZERWA);
-	PORTB ^= ZAW0| ZAW1 | POMPA;
+	PORTB ^= ZAW0| ZAW1;
+	char zalacz = 't';
 	
 
    while(1)
     {
 		cisnienie=pomiar(5);
-		if (pomiar<400){
-			PORTB |= POMPA;
+		if (cisnienie<450){
+			if (zalacz == 't'){
+				PORTB ^=POMPA;
+				zalacz = 'n';
+			}
+			_delay_ms(70);
+			pompaka = 't';
 		}else{
+			if(pompaka=='t'){
+				PORTB |= POMPA;
+				_delay_ms(1000);
+				pompaka = 'f';
+				zalacz = 't';
+			}
 			
 			c=USART_Receive();
 			switch(c)
@@ -56,7 +69,7 @@ int main(void)
 				case '0' :
 				// wyswietlenie pikselu 0
 				PORTB |= ZAW0;
-				_delay_ms(T_WOD);
+				_delay_ms(T_POW);
 				PORTB ^=ZAW0;
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
@@ -65,11 +78,28 @@ int main(void)
 				case '1' :
 				// wyswietlenie pikselu 1
 				PORTB |= ZAW1;
-				_delay_ms(T_POW);
+				_delay_ms(T_WOD);
 				PORTB ^=ZAW1;
 				_delay_ms(PRZERWA);
 				USART_Transmit(c);
 				break;
+				
+				case '2' :
+				// wyswietlenie pikselu 1
+				PORTB |= ZAW1;
+				_delay_ms(T_WOD);
+				_delay_ms(PRZERWA);
+				USART_Transmit(c);
+				break;
+				
+				case '3' :
+				// wyswietlenie pikselu 1
+				PORTB ^=ZAW1;
+				_delay_ms(T_WOD);
+				_delay_ms(PRZERWA);
+				USART_Transmit(c);
+				break;
+				
 				
 				case 0 :
 				// obsluga w momecie naciœniecie przycisku Anuluj w programie oraz zakoñczenie wysy³ania zdjêcia
