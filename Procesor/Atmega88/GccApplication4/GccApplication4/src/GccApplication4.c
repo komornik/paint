@@ -47,7 +47,7 @@ int main(void)
    while(1)
     {
 		cisnienie=pomiar(5);
-		if (cisnienie<450){
+		if (cisnienie<600){
 			if (zalacz == 't'){
 				PORTB ^=POMPA;
 				zalacz = 'n';
