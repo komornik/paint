@@ -46,6 +46,7 @@
             this.względemOsiYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToMonochromate1BitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToBlackWhiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyslijDoUrzadzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.default1 = new System.Windows.Forms.PictureBox();
@@ -77,7 +78,7 @@
             this.rozmiar = new System.Windows.Forms.TrackBar();
             this.drukujDialog = new System.Windows.Forms.PrintDialog();
             this.widokWydrukuDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.wyslijDoUrzadzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProgressBarForm1 = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -231,6 +232,13 @@
             this.convertToBlackWhiteToolStripMenuItem.Text = "Convert to Black-White";
             this.convertToBlackWhiteToolStripMenuItem.Click += new System.EventHandler(this.convertToBlackWhiteToolStripMenuItem_Click);
             // 
+            // wyslijDoUrzadzToolStripMenuItem
+            // 
+            this.wyslijDoUrzadzToolStripMenuItem.Name = "wyslijDoUrzadzToolStripMenuItem";
+            this.wyslijDoUrzadzToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.wyslijDoUrzadzToolStripMenuItem.Text = "Wyślij do urządzenia";
+            this.wyslijDoUrzadzToolStripMenuItem.Click += new System.EventHandler(this.wyslijDoUrzadzToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
@@ -337,7 +345,8 @@
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelY,
             this.toolStripStatusTextY,
-            this.portLCh});
+            this.portLCh,
+            this.ProgressBarForm1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 340);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(480, 22);
@@ -535,12 +544,10 @@
             this.widokWydrukuDialog.Name = "widokWydrukuDialog";
             this.widokWydrukuDialog.Visible = false;
             // 
-            // wyslijDoUrzadzToolStripMenuItem
+            // ProgressBarForm1
             // 
-            this.wyslijDoUrzadzToolStripMenuItem.Name = "wyslijDoUrzadzToolStripMenuItem";
-            this.wyslijDoUrzadzToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.wyslijDoUrzadzToolStripMenuItem.Text = "Wyślij do urządzenia";
-            this.wyslijDoUrzadzToolStripMenuItem.Click += new System.EventHandler(this.wyslijDoUrzadzToolStripMenuItem_Click);
+            this.ProgressBarForm1.Name = "ProgressBarForm1";
+            this.ProgressBarForm1.Size = new System.Drawing.Size(100, 16);
             // 
             // Form1
             // 
@@ -630,6 +637,7 @@
         private System.Windows.Forms.ToolStripMenuItem convertToBlackWhiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel portLCh;
         private System.Windows.Forms.ToolStripMenuItem wyslijDoUrzadzToolStripMenuItem;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBarForm1;
     }
 }
 

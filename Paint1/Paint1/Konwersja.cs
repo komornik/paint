@@ -12,8 +12,12 @@ namespace Paint
     {
 
 
-
-        public static Bitmap ConvertTo8Bit(Bitmap input)
+        /// <summary>
+        /// Konwersja z RGB na 8 bitów ustawienie wszystkich kolorów na ten sam
+        /// </summary>
+        /// <param name="input"> obraz do Konwersji</param>
+        /// <returns>obraz przerobiony</returns>
+        public static Bitmap ConvertTo8Bit(Bitmap input, Form1)
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
             Color c;
@@ -32,6 +36,11 @@ namespace Paint
             return output;
         }
 
+        /// <summary>
+        /// Konwersja na B&W
+        /// </summary>
+        /// <param name="input">Obraz do konwersji</param>
+        /// <returns>obraz przerobiony</returns>
         public static Bitmap ConverteToBlacWhite(Bitmap input)
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
@@ -52,7 +61,7 @@ namespace Paint
                     }
                     if (srednia >= 127)
                     {
-                        output.SetPixel(x, y, Color.FromArgb(240, 255, 255, 255));
+                        output.SetPixel(x, y, Color.FromArgb(input.GetPixel(x, y).A, 255, 255, 255)); //alfa była 240
                     }else{
                         output.SetPixel(x, y, Color.FromArgb(input.GetPixel(x, y).A, 0, 0, 0));
                     }
