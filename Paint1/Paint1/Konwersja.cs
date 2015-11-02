@@ -10,6 +10,9 @@ namespace Paint
 {
     class Konwersja
     {
+
+
+
         public static Bitmap ConvertTo8Bit(Bitmap input)
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
@@ -64,6 +67,7 @@ namespace Paint
 
 
 
+        /*
         public static Bitmap ConvertTo1Bit(Bitmap input)
         {
             Color pix = input.GetPixel(1, 1);
@@ -126,6 +130,6 @@ namespace Paint
             return (r * 0.299 + g * 0.587 + b * 0.114) / 255;
         }
 
-        
+        */
     }
 }

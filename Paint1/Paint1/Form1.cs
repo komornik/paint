@@ -616,6 +616,11 @@ namespace Paint
             }
         }
 
+        /// <summary>
+        /// Konwersja na obraz czarno-biały 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void convertToBlackWhiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (pictureBox2.Image == null)
@@ -624,24 +629,26 @@ namespace Paint
             }
             else
             {
-                pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image);
 
-
-            } if (pictureBox2.Image == null)
-            {
-                MessageBox.Show("Nie otworzyłeś żadnego obrazu", "Brak zdjęcia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
+                //stworzenie obrazu czarno-białego
+                Bitmap obrazek = new Bitmap(pictureBox2.Image, new Size(panel1.Width, panel1.Height));
+                pictureBox2.Image = obrazek;
+                pictureBox2.Size = new Size(pictureBox2.Image.Width, pictureBox2.Image.Height);
                 pictureBox2.Image = Konwersja.ConverteToBlacWhite(Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image));
 
 
-            }
+            } 
+
+
         }
 
+        Image getObraz()
+        {
+            return pictureBox2.Image;
+        }
         private void wyslijDoUrzadzToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Wyslij wyslij = new Wyslij(pictureBox2.Image);
+            Wyslij wyslij = new Wyslij("saad",getObraz);
             wyslij.Visible = true;
         }
 
