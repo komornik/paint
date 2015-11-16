@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.IO;
 using System.Threading;
 
 namespace Paint
@@ -124,12 +125,34 @@ namespace Paint
                             switch (c)
                             {
                                 case 0:
-                                    port.Write(""+zero);
-                                    port.ReadChar();
+                                    try {
+                                        port.Write("" + zero);
+                                        port.ReadChar();
+                                    }
+                                    catch (IOException ex)
+                                    {
+                                        port.Close();
+                                    }
+                                    catch (InvalidOperationException ex)
+                                    {
+                                        MessageBox.Show("brak połączenia");
+                                        port.Close();
+                                    }
                                     break;
                                 case 1:
-                                    port.Write(""+jeden);
-                                    port.ReadChar();
+                                    try {
+                                        port.Write("" + jeden);
+                                        port.ReadChar();
+                                    }
+                                    catch(IOException e)
+                                    {
+                                        port.Close();
+                                    }
+                                    catch (InvalidOperationException ex)
+                                    {
+                                        MessageBox.Show("brak połączenia");
+                                        port.Close();
+                                    }
                                     break;
                                 default:
                                     MessageBox.Show("c = " + c);
@@ -153,14 +176,36 @@ namespace Paint
                                 wylacz = false;
                             }
                         }
-                        port.Write(""+koniec_lini); //oznaczenie końca lini
-                        port.ReadChar();
+                        try {
+                            port.Write("" + koniec_lini); //oznaczenie końca lini
+                            port.ReadChar();
+                        }
+                        catch(IOException e)
+                        {
+                            port.Close();
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            MessageBox.Show("brak połączenia");
+                            port.Close();
+                        }
                     }
                     /*
                      *Zamknięcie portu 
                      */
-                    port.Write(""+koniec_koniec);
-                    port.Close();
+                    try {
+                        port.Write("" + koniec_koniec);
+                        port.Close();
+                    }
+                    catch(IOException e)
+                    {
+                        port.Close();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show("brak połączenia");
+                        port.Close();
+                    }
                     /*
                      * Wyzerowanie progresbaru
                      */
