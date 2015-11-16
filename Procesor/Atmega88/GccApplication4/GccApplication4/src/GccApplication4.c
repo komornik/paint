@@ -16,11 +16,11 @@
 #define ZAW0 (1<<PB0)
 #define ZAW1 (1<<PB1)
 #define POMPA (1<<PB2)
-#define T_WOD 750
-#define T_POW 100
+#define T_WOD 950	
+#define T_POW 950
 #define T_KON_LINE 100
 #define T_KON_WYSW 200
-#define PRZERWA 1000
+#define PRZERWA 900
 
 void USART_Init(unsigned int ubrr);
 void USART_Transmit(unsigned char data );
@@ -47,7 +47,7 @@ int main(void)
    while(1)
     {
 		cisnienie=pomiar(5);
-		if (cisnienie<600){
+		if (cisnienie<190){
 			if (zalacz == 't'){
 				PORTB ^=POMPA;
 				zalacz = 'n';
