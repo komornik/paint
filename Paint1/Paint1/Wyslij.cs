@@ -51,49 +51,25 @@ namespace Paint
         /// Wysałanie Zdjęcia 
         /// 
         /// </summary>
-        private void wyslanie()
+        private void wyslanie(Object obaraz1)
         {
-            
+            var obraz = (Bitmap)obaraz1;
             if (portnaz !="") // Jeśli port nie wybrany 
             {
-                
-                if (rozmiar_X.Text != "" && rozmiar_Y.Text != "")
-                {
-                    /* rozwiązanie tymczasowe dla tablicy zer i jedynek*/
-                    int x, y;
-                    try
-                    {
-                        x = Convert.ToInt32(rozmiar_X.Text);
-                        y = Convert.ToInt32(rozmiar_Y.Text);
-                    }
-                    catch (FormatException ex)
-                    {
-                        MessageBox.Show("Rozmiar musi byc liczbą całkowitą", "Zły format", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        x = 0;
-                        y = 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        x = 0;
-                        y = 0;
-                    }
+                int x = obraz.Height;
+                int y = obraz.Width;
+                      
+                   
                     progressBar1.Invoke(new Action(delegate()
                     {
+                        progressBar1.Minimum = 0;
+                        progressBar1.Step = 1;
                         progressBar1.Minimum = 0;
                         progressBar1.Maximum = x * y;
                         progressBar1.Step = 1;
                     }));
                     
-                    byte [][] tab = new byte[x][];
-                    for(int i=0; i<x;i++){
-                        tab[i] = new byte[y];
-                        for(int j=0;j<y;j++){
-                            if (j%2==0){
-                                tab[i][j]=1;
-                            }
-                        }
-                       
-                    }
+                   
                     SerialPort port = new SerialPort(portnaz, 2400, Parity.None, 8, StopBits.One);
                     try
                     {
@@ -120,7 +96,7 @@ namespace Paint
                         for (int j = 0; j < y; j++)
                         {
                             while (pauza) ;
-                            c = tab[i][j];
+                        c = obraz.GetPixel(i, y).R;
                             switch (c)
                             {
                                 case 0:
@@ -160,6 +136,7 @@ namespace Paint
                      *Zamknięcie portu 
                      */
                     port.Write(""+koniec_koniec);
+                    port.ReadChar();
                     port.Close();
                     /*
                      * Wyzerowanie progresbaru
@@ -168,7 +145,7 @@ namespace Paint
                     {
                         progressBar1.Value = 0;
                     }));
-                }
+                
             }
             else
             {
@@ -180,14 +157,13 @@ namespace Paint
         }
         private void wyslijB_Click(object sender, EventArgs e)
         {
+            
             obraz = (Bitmap)getObraz();
             if (obraz != null)
             {
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = obraz.Width * obraz.Height;
-                progressBar1.Step = 1;
-                Thread thr = new Thread(wyslanie);
-                thr.Start();
+                
+                Thread thr = new Thread(new ParameterizedThreadStart(wyslanie));
+                thr.Start(obraz);
             }
             else
             {

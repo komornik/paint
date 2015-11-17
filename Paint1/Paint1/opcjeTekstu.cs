@@ -68,16 +68,16 @@ namespace Paint
             {
                 case ("Normalny") :
                     return FontStyle.Regular;
-                break;
+                    break;
                 case ("Pogrubiny"):
                     return FontStyle.Bold;
-                break;
+                    break;
                 case ("Pochyły"):
                      return FontStyle.Italic;
-                break;
+                    break;
                 case ("Podkreślony"):
                     return FontStyle.Underline;
-                break;
+                    break;
 
             }
 

@@ -5,34 +5,65 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 //using System.Windows.Media;
 namespace Paint
 {
     class Konwersja
     {
-
+        static int[] LUT= null;
 
         /// <summary>
         /// Konwersja z RGB na 8 bitów ustawienie wszystkich kolorów na ten sam
         /// </summary>
         /// <param name="input"> obraz do Konwersji</param>
         /// <returns>obraz przerobiony</returns>
-        public static Bitmap ConvertTo8Bit(Bitmap input, Form1)
+        public static Bitmap ConvertTo8Bit(Bitmap input, ToolStripProgressBar progresbar )
+
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
             Color c;
-            int min=0;
+            int gray,wynik;
+            if (LUT == null)
+            {
+                LUT = new int[256];
+                double a = 1.25;
+                for(int i = 0; i < 256; i++)
+                {
+                    wynik =Convert.ToInt32( a * (i - 255 / 2) + 255 / 2);
+                    if (wynik < 0)
+                    {
+                        LUT[i] = 0;
+                    }else if (wynik > 255)
+                    {
+                        LUT[i] = 255;
+                    }
+                    else
+                    {
+                        LUT[i] = wynik;
+                    }
+                }
+            }
+            
+            progresbar.Step = 1;
+            progresbar.Minimum = 0;
+            progresbar.Maximum = input.Height * input.Width;
+            progresbar.Step = 1;
             for (int x = 0; x < input.Height; x++)
             {
                 for (int y=0; y < input.Width; y++)
                 {
                    c= input.GetPixel(y,x);
-                   min =(int) Math.Min(c.B, Math.Min(c.R, c.G));
-                   output.SetPixel(y,x,Color.FromArgb(c.A,min,min,min));
-                   
+                    // konwersja do skali szarości 
+                   gray =Convert.ToInt32( 0.21*c.R + 0.72 * c.G + 0.07 * c.B);
+                    
+                    //poprawa contrastu
+                   gray = LUT[gray];
+                   output.SetPixel(y,x,Color.FromArgb(c.A,gray,gray,gray));
+                    progresbar.PerformStep();
                 }
             }
-
+            progresbar.Value = 0;
             return output;
         }
 
@@ -41,11 +72,14 @@ namespace Paint
         /// </summary>
         /// <param name="input">Obraz do konwersji</param>
         /// <returns>obraz przerobiony</returns>
-        public static Bitmap ConverteToBlacWhite(Bitmap input)
+        public static Bitmap ConverteToBlacWhite(Bitmap input, ToolStripProgressBar progresbar)
         {
             Bitmap output = new Bitmap(input.Width, input.Height);
             int romiar_okna = 1;
-
+            progresbar.Step = 1;
+            progresbar.Minimum = 0;
+            progresbar.Maximum = input.Height * input.Width;
+            progresbar.Step = 1;
             for (int y = romiar_okna; y < (input.Height - romiar_okna-1); y++)
             {
                 for (int x = romiar_okna; x < (input.Width - romiar_okna-1); x++)
@@ -65,10 +99,11 @@ namespace Paint
                     }else{
                         output.SetPixel(x, y, Color.FromArgb(input.GetPixel(x, y).A, 0, 0, 0));
                     }
+                    progresbar.PerformStep();
 
                 }
             }
-
+            progresbar.Value = 0;
             return output;
 
 

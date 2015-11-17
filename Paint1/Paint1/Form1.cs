@@ -185,9 +185,14 @@ namespace Paint
                             draw = true;
                             break;
                         case Item.wypel:
-                            Wypelnienie wyp = new Wypelnienie((Bitmap)buf, buf.GetPixel(e.X, e.Y), default1.BackColor );
-                            wyp.wypelnij(e.X, e.Y);
-                            pictureBox2.Image = buf;
+                            Color c = buf.GetPixel(e.X, e.Y);
+                            // sprawdzenie czy nie prubujemy wypełnić tym samym kolorem
+                            if (c.B != default1.BackColor.B || c.G!=default1.BackColor.G || c.R!=default1.BackColor.R)
+                            {
+                                Wypelnienie wyp = new Wypelnienie((Bitmap)buf, buf.GetPixel(e.X, e.Y), default1.BackColor);
+                                wyp.wypelnij(e.X, e.Y);
+                                pictureBox2.Image = buf;
+                            }
                             break;
                         case Item.tekst:
                             g = Graphics.FromImage(buf);
@@ -610,8 +615,7 @@ namespace Paint
             }
             else
             {
-                pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image);
-
+                pictureBox2.Image = Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image, ProgressBarForm1);
 
             }
         }
@@ -634,7 +638,7 @@ namespace Paint
                 Bitmap obrazek = new Bitmap(pictureBox2.Image, new Size(panel1.Width, panel1.Height));
                 pictureBox2.Image = obrazek;
                 pictureBox2.Size = new Size(pictureBox2.Image.Width, pictureBox2.Image.Height);
-                pictureBox2.Image = Konwersja.ConverteToBlacWhite(Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image));
+                pictureBox2.Image = Konwersja.ConverteToBlacWhite(Konwersja.ConvertTo8Bit((Bitmap)pictureBox2.Image,ProgressBarForm1), ProgressBarForm1);
 
 
             } 
