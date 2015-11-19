@@ -19,7 +19,11 @@ namespace Paint
         
         Graphics g;
         Figura referencja;
-
+        Wyslij wyslij = new Wyslij();
+        Image getObraz()
+        {
+            return pictureBox2.Image;
+        }
         public enum Item
         {
             kwadrat, elipsa, linia, pendzel, olowek, gumka, wypel,
@@ -646,13 +650,10 @@ namespace Paint
 
         }
 
-        Image getObraz()
-        {
-            return pictureBox2.Image;
-        }
+        
         private void wyslijDoUrzadzToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Wyslij wyslij = new Wyslij("saad",getObraz);
+            wyslij.getObraz = this.getObraz;
             wyslij.Visible = true;
         }
 

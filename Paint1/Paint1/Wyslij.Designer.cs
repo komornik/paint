@@ -128,6 +128,7 @@
             this.Controls.Add(this.PortChB);
             this.Name = "Wyslij";
             this.Text = "Wyslij";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Wyslij_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

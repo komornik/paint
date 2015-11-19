@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Threading;
+using System.IO;
+
 
 namespace Paint
 {
     public partial class Wyslij : Form
     {
         public delegate Image pobierzObraz();
-        pobierzObraz getObraz;
+        public pobierzObraz getObraz;
         Bitmap obraz;
         String portnaz = "";
         bool pauza = false;
-        public Wyslij(string i, pobierzObraz pobierzImage)
+        SerialPort port= new SerialPort(); 
+        public Wyslij()
         {
             InitializeComponent();
-            getObraz = pobierzImage;
-            obraz = (Bitmap)getObraz();
             string[] ports = SerialPort.GetPortNames();
             PortChB.Items.Clear();
             PortChB.Items.AddRange(ports);
@@ -70,8 +66,9 @@ namespace Paint
                     }));
                     
                    
-                    SerialPort port = new SerialPort(portnaz, 2400, Parity.None, 8, StopBits.One);
-                    try
+                    port = new SerialPort(portnaz, 2400, Parity.None, 8, StopBits.One);
+
+                try
                     {
                         port.Open();
                     }
@@ -90,37 +87,75 @@ namespace Paint
                     char koniec_koniec = Convert.ToChar(0);
                     char zero = '0';
                     char jeden = '1';
-
-                    for (int i = 0; i <x; i++)
+                    int znak;
+                    for (int i = 0; i <y; i++)
                     {
-                        for (int j = 0; j < y; j++)
+                        for (int j = 0; j < x; j++)
                         {
-                            while (pauza) ;
-                        c = obraz.GetPixel(i, y).R;
-                            switch (c)
+                        while (pauza) ;
+                        c = obraz.GetPixel(j, i).R;
+                        
+                        switch (c)
                             {
                                 case 0:
-                                    port.Write(""+zero);
-                                    port.ReadChar();
+                                    try
+                                    {
+                                        port.Write("" + zero);
+                                    
+
+                                        if (48 != (znak = port.ReadChar()))
+                                        {
+                                        MessageBox.Show("Procesor źle odczytał pixel"+c);
+                                        }
+
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        port.Close();
+                                    j = x;
+                                    i = y;
+                                    continue;
+                                    }
+                                    
                                     break;
-                                case 1:
-                                    port.Write(""+jeden);
-                                    port.ReadChar();
+                                case 255:
+                                    try {
+                                        port.Write("" + jeden);
+                                        
+                                        if (49 != (znak = port.ReadChar()))
+                                        {
+                                            MessageBox.Show("Procesor źle odczytał pixel"+c);
+                                        }
+
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        port.Close();
+                                        j = x;
+                                        i = y;
+                                    continue;
+                                    }
+                                    
                                     break;
                                 default:
                                     MessageBox.Show("c = " + c);
                                     break;
                             }
-                            progressBar1.Invoke(new Action(delegate()
-                            {
-                                //obsługa progres baru 
-                                progressBar1.PerformStep();
-                            }));
+                            try {
+                                progressBar1.Invoke(new Action(delegate ()
+                                {
+                                    //obsługa progres baru 
+                                    progressBar1.PerformStep();
+                                }));
+                            }catch (InvalidOperationException)
+                        {
+
+                        }
                             if (wylacz)
                             {
                                 //akcja po kliknięciu Anuluj 
-                                i = x;
-                                j = y;
+                                i = y;
+                                j = x;
 
                                 progressBar1.Invoke(new Action(delegate()
                                 {
@@ -129,19 +164,43 @@ namespace Paint
                                 wylacz = false;
                             }
                         }
-                        port.Write(""+koniec_lini); //oznaczenie końca lini
-                        port.ReadChar();
+                        try
+                        {
+                            port.Write("" + koniec_lini); //oznaczenie końca lini
+                            port.ReadChar();
+                        }
+                        catch (IOException e)
+                        {
+                            port.Close();
+                            i = y;
+                           
+                        }
+                        catch (InvalidOperationException e)
+                        {
+
+                        }
                     }
-                    /*
-                     *Zamknięcie portu 
-                     */
-                    port.Write(""+koniec_koniec);
+                /*
+                 *Zamknięcie portu 
+                 */
+                try
+                {
+                    port.Write("" + koniec_koniec);
                     port.ReadChar();
                     port.Close();
-                    /*
-                     * Wyzerowanie progresbaru
-                     */
-                    progressBar1.Invoke(new Action(delegate()
+                }
+                catch (IOException e)
+                {
+                    port.Close();
+                }
+                catch (InvalidOperationException e)
+                {
+
+                }
+                /*
+                 * Wyzerowanie progresbaru
+                 */
+                progressBar1.Invoke(new Action(delegate()
                     {
                         progressBar1.Value = 0;
                     }));
@@ -157,17 +216,23 @@ namespace Paint
         }
         private void wyslijB_Click(object sender, EventArgs e)
         {
-            
-            obraz = (Bitmap)getObraz();
-            if (obraz != null)
+            if (getObraz() != null)
             {
-                
-                Thread thr = new Thread(new ParameterizedThreadStart(wyslanie));
-                thr.Start(obraz);
+                obraz = new Bitmap(getObraz());
+                if (!port.IsOpen)
+                {
+
+                    Thread thr = new Thread(new ParameterizedThreadStart(wyslanie));
+                    thr.Start(obraz);
+                }
+                else
+                {
+                    MessageBox.Show("Port COM jest zajęty", "UWAGA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Otwórz najpier obraz do wysłania", "UWAGA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Brak obrazu do wysłania", "UWAGA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -260,6 +325,23 @@ namespace Paint
             }
 
         }
+
+        private void Wyslij_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (port.IsOpen)
+            {
+                e.Cancel = true;
+                MessageBox.Show("Port jest otwarty", "UWAGA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+            }
+            else
+            {
+                e.Cancel = true;
+                this.Visible = false;
+            }
+        }
+
+        
     }
 }
     
