@@ -340,23 +340,29 @@ namespace Paint
         private void Form1_Load(object sender, EventArgs e)
         {
             
+            panel1.Size = new Size(this.Width - 132, this.Height - 96);
+            panel2.Location = new Point(this.Width - 126, 27);
+            groupBox1.Location = new Point(this.Width - (496 - 370), this.Height - (401 - 232));
 
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            try
-            {
+            
+              try
+                {
                 int width = Form1.ActiveForm.Width;
                 int height = Form1.ActiveForm.Height;
                 panel1.Size = new Size(width - 132, height - 96);
                 panel2.Location = new Point(width - 126, 27);
                 groupBox1.Location = new Point(width - (496 - 370), height - (401 - 232));
-            }
-            catch (Exception ex)
-            {
-                
-            }
+                }
+              catch (Exception ex)
+                {
+
+                }  
+            
+            
         }
 
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e)

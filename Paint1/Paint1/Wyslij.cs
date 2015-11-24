@@ -52,8 +52,8 @@ namespace Paint
             var obraz = (Bitmap)obaraz1;
             if (portnaz !="") // Jeśli port nie wybrany 
             {
-                int x = obraz.Height;
-                int y = obraz.Width;
+                int x = obraz.Width;
+                int y = obraz.Height;
                       
                    
                     progressBar1.Invoke(new Action(delegate()
@@ -71,6 +71,7 @@ namespace Paint
                 try
                     {
                         port.Open();
+                        MessageBox.Show("po otwarciu"+ port.ReadExisting());
                     }
                     catch (Exception e)
                     {
@@ -100,9 +101,7 @@ namespace Paint
                                 case 0:
                                     try
                                     {
-                                        port.Write("" + zero);
-                                    
-
+                                    port.Write("" + zero);
                                         if (48 != (znak = port.ReadChar()))
                                         {
                                         MessageBox.Show("Procesor źle odczytał pixel"+c);
@@ -121,13 +120,13 @@ namespace Paint
                                 case 255:
                                     try {
                                         port.Write("" + jeden);
-                                        
                                         if (49 != (znak = port.ReadChar()))
                                         {
-                                            MessageBox.Show("Procesor źle odczytał pixel"+c);
+                                            MessageBox.Show("Procesor źle odczytał pixel" + c);
                                         }
 
-                                    }
+
+                                }
                                     catch (IOException e)
                                     {
                                         port.Close();
@@ -164,6 +163,7 @@ namespace Paint
                                 wylacz = false;
                             }
                         }
+                        
                         try
                         {
                             port.Write("" + koniec_lini); //oznaczenie końca lini

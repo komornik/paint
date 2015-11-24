@@ -60,6 +60,7 @@
             // wyslijB
             // 
             this.wyslijB.Location = new System.Drawing.Point(59, 99);
+            this.wyslijB.MinimumSize = new System.Drawing.Size(75, 23);
             this.wyslijB.Name = "wyslijB";
             this.wyslijB.Size = new System.Drawing.Size(75, 23);
             this.wyslijB.TabIndex = 2;
@@ -117,7 +118,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 263);
+            this.ClientSize = new System.Drawing.Size(268, 259);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
@@ -126,7 +127,10 @@
             this.Controls.Add(this.wyslijB);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PortChB);
+            this.MaximumSize = new System.Drawing.Size(284, 298);
+            this.MinimumSize = new System.Drawing.Size(284, 298);
             this.Name = "Wyslij";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Wyslij";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Wyslij_FormClosing);
             this.ResumeLayout(false);

@@ -63,6 +63,7 @@
             this.toolStripStatusLabelY = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusTextY = new System.Windows.Forms.ToolStripStatusLabel();
             this.portLCh = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBarForm1 = new System.Windows.Forms.ToolStripProgressBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tekst = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -78,7 +79,6 @@
             this.rozmiar = new System.Windows.Forms.TrackBar();
             this.drukujDialog = new System.Windows.Forms.PrintDialog();
             this.widokWydrukuDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.ProgressBarForm1 = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -347,7 +347,7 @@
             this.toolStripStatusTextY,
             this.portLCh,
             this.ProgressBarForm1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 340);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 439);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(480, 22);
             this.statusStrip1.TabIndex = 10;
@@ -387,6 +387,11 @@
             // 
             this.portLCh.Name = "portLCh";
             this.portLCh.Size = new System.Drawing.Size(0, 17);
+            // 
+            // ProgressBarForm1
+            // 
+            this.ProgressBarForm1.Name = "ProgressBarForm1";
+            this.ProgressBarForm1.Size = new System.Drawing.Size(100, 16);
             // 
             // panel2
             // 
@@ -544,23 +549,19 @@
             this.widokWydrukuDialog.Name = "widokWydrukuDialog";
             this.widokWydrukuDialog.Visible = false;
             // 
-            // ProgressBarForm1
-            // 
-            this.ProgressBarForm1.Name = "ProgressBarForm1";
-            this.ProgressBarForm1.Size = new System.Drawing.Size(100, 16);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(480, 362);
+            this.ClientSize = new System.Drawing.Size(480, 461);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(300, 400);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
